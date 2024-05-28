@@ -28,7 +28,7 @@ app.get('/all', async (req, res) => {
 app.get("/", (req, res) => {
     res.send('Welcome to get Dishes Data');
 })
-app.post('/details', (req,res)=>{
+app.post('/details',async (req,res)=>{
     const id = 52772;
     const item = {};
     try {
