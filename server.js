@@ -11,6 +11,9 @@ const timeout = ms => new Promise(res => setTimeout(res, ms))
 app.listen(port, () => {
     console.log(`server is running at:${port}`)
 })
+app.use((req, res, err, next) => {
+    res.status(err.status || 500).json({ error: err.message });
+})
 app.get('/all', async (req, res) => {
     let data = [];
     try {
@@ -22,33 +25,13 @@ app.get('/all', async (req, res) => {
         console.log(data)
         res.send(data)
         
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' })
+    } catch (error) {
+        next(error);    
     }
     
 })
 app.get("/", (req, res) => {
-    res.send('Welcome to get Dishes Data');
-})
-app.post('/details',async (req,res)=>{
-    const id = req.body.id;
-    let item = {};
-    try {
-        axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
-        console.log('post data',resp.data)
-        item = resp.data
-        })
-        await timeout(2000);
-        if (item != null) {
-            res.send(item);    
-        }
-        else {
-            res.send('Id does not axist');
-         }  
-    } catch (err) {
-        res.status(500).json({ message: 'data not found' });
-    }
-    
+    res.send('Welcome to get Dishes Database');
 })
 app.post('/categorywise-list', async(req, res) => {
     const category = req.body.category;
@@ -61,6 +44,21 @@ app.post('/categorywise-list', async(req, res) => {
         await timeout(2000);
         res.send(list);
     } catch (err) {
-        res.status(500).json({ message: 'data not found' });
+        next(error);
     }
     })
+app.post('/details',async (req,res)=>{
+    const id = req.body.id;
+    let item = {};
+    try {
+        axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
+        console.log('post data',resp.data)
+        item = resp.data
+        })
+        await timeout(2000);
+        res.send(item)  
+    } catch (error) {
+        next(error)
+    }
+    
+})
