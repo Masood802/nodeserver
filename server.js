@@ -17,9 +17,9 @@ app.use((req, res, err, next) => {
 app.get('/all', async (req, res) => {
     try {
         axios.get('http://themealdb.com/api/json/v1/1/categories.php').then(resp => {
-            return resp.data.categories;
-            
-        });
+            console.log(resp.data.categories);
+            res.send(resp.data.categories);          
+        })
     } catch (error) {
         next(error);    
     }
@@ -32,7 +32,7 @@ app.post('/categorywise-list', async(req, res) => {
     const category = req.body.category;
     try {
         axios.post(`http://themealdb.com/api/json/v1/1/filter.php?c=${category}`).then(resp => {
-        return resp.data;
+        res.send(resp.data);
         })
     } catch (error) {
         next(error);
@@ -43,7 +43,7 @@ app.post('/details',async (req,res)=>{
     const id = req.body.id;
         try {
         axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
-        return resp.data
+            res.send(resp.data);
         })
     } catch (error) {
         next(error)
