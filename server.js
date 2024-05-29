@@ -22,7 +22,6 @@ app.get('/all', async (req, res) => {
             
         });
         await timeout(2000);
-        console.log(data)
         res.send(data)
         
     } catch (error) {
@@ -37,7 +36,6 @@ app.post('/categorywise-list', async(req, res) => {
     let list = [];
     try {
         axios.post(`http://themealdb.com/api/json/v1/1/filter.php?c=${category}`).then(resp => {
-        console.log(resp.data)
         list = resp.data;
         })
         await timeout(2000);
@@ -51,7 +49,6 @@ app.post('/details',async (req,res)=>{
     let item = {};
     try {
         axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
-        console.log('post data',resp.data)
         item = resp.data
         })
         await timeout(2000);
