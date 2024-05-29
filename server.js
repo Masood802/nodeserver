@@ -14,6 +14,7 @@ app.listen(port, () => {
 app.use((req, res, err, next) => {
     res.status(err.status || 500).json({ error: err.message });
 })
+//get request to show all categories of meals...
 app.get('/all', async (req, res) => {
     let data = [];
     try {
@@ -31,6 +32,7 @@ app.get('/all', async (req, res) => {
 app.get("/", (req, res) => {
     res.send('Welcome to Meals Database');
 })
+//post request to list of meals in specific category.. 
 app.post('/categorywise-list', async(req, res) => {
     const category = req.body.category;
     let list = [];
@@ -40,10 +42,11 @@ app.post('/categorywise-list', async(req, res) => {
         })
         await timeout(2000);
         res.send(list);
-    } catch (err) {
+    } catch (error) {
         next(error);
     }
-    })
+})
+    //post request to show details of any meal for given id..
 app.post('/details',async (req,res)=>{
     const id = req.body.id;
     let item = {};
