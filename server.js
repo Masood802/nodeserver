@@ -28,10 +28,9 @@ app.get('/all', async (req, res) => {
     } catch (error) {
         next(error);    
     }
-    
 })
 app.get("/", (req, res) => {
-    res.send('Welcome to get Dishes Database');
+    res.send('Welcome to Meals Database');
 })
 app.post('/categorywise-list', async(req, res) => {
     const category = req.body.category;
@@ -59,6 +58,5 @@ app.post('/details',async (req,res)=>{
         res.send(item)  
     } catch (error) {
         next(error)
-    }
-    
+    }    
 })
