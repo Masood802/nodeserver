@@ -41,9 +41,16 @@ app.post('/categorywise-list', async(req, res) => {
     //post request to show details of any meal for given id..
 app.post('/details',async (req,res)=>{
     const id = req.body.id;
+    console.log(id)
         try {
-        axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
-            res.send(resp.data);
+            axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
+            if(resp.data.meals)
+            {
+                res.send(resp.data.meals);
+            }
+            else {
+                res.send(`No recipie found for the id ${id} `)
+            }
         })
     } catch (error) {
         next(error)
