@@ -28,10 +28,10 @@ app.get("/", (req, res) => {
     res.send('Welcome to Meals Database');
 })
 //post request to list of meals in specific category.. 
-app.get('/categorywise-list', async(req, res) => {
+app.post('/categorywise-list', async(req, res) => {
     const category = req.body.category;
     try {
-        axios.post(`http://themealdb.com/api/json/v1/1/filter.php?c=${category}`).then(resp => {
+        axios.get(`http://themealdb.com/api/json/v1/1/filter.php?c=${category}`).then(resp => {
         res.send(resp.data);
         })
     } catch (error) {
@@ -39,11 +39,11 @@ app.get('/categorywise-list', async(req, res) => {
     }
 })
     //post request to show details of any meal for given id..
-app.get('/details',async (req,res)=>{
+app.post('/details',async (req,res)=>{
     const id = req.body.id;
     console.log(id)
         try {
-            axios.post(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
+            axios.get(`http://themealdb.com/api/json/v1/1/lookup.php?i=${id}`).then(resp => {
             if(resp.data.meals)
             {
                 res.send(resp.data.meals);
