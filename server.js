@@ -21,8 +21,8 @@ connection.connect((error) => {
   if (error) {
     console.error("Error connecting database", error);
   } else {
-    // 
-    console.log("connected")
+    //
+    console.log("connected");
   }
 });
 app.use((req, res, err, next) => {
@@ -31,19 +31,19 @@ app.use((req, res, err, next) => {
 //get request to show all categories of meals...
 app.get("/all", async (req, res) => {
   try {
-         connection.query(`select * from categories`, (err, result, fields) => {
-           if (err) {
-             console.log(err);
-           }
-           console.log(result);
-           res.send(result);
-         });
-    // axios
-    //   .get("http://themealdb.com/api/json/v1/1/categories.php")
-    //   .then((resp) => {
-    //     console.log(resp.data.categories);
-    //     res.send(resp.data.categories);
-    //   });
+    // connection.query(`select * from categories`, (err, result, fields) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    //   console.log(result);
+    //   res.send(result);
+    // });
+    axios
+      .get("http://themealdb.com/api/json/v1/1/categories.php")
+      .then((resp) => {
+        console.log(resp.data.categories);
+        res.send(resp.data.categories);
+      });
   } catch (error) {
     next(error);
   }
@@ -55,6 +55,17 @@ app.get("/", (req, res) => {
 app.post("/categorywise-list", async (req, res) => {
   const category = req.body.category;
   try {
+    // console.log(category);
+    // connection.query(
+    //   `select * from recipie where Category=${category}`,
+    //   (err, result, fields) => {
+    //     if (err) {
+    //       console.log(err);
+    //     }
+    //     console.log(result);
+    //     res.send(category);
+    //   }
+    // );
     axios
       .get(`http://themealdb.com/api/json/v1/1/filter.php?c=${category}`)
       .then((resp) => {
